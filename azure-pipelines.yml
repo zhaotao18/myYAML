@@ -69,7 +69,7 @@ stages:
     - task: AzureResourceManagerTemplateDeployment@3
       inputs:
         deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: 'BasementLab (cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c)'
+        azureResourceManagerConnection: 'Pay-As-You-Go (cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c)'
         subscriptionId: 'cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c'
         action: 'Create Or Update Resource Group'
         resourceGroupName: 'tz-yaml'
@@ -83,7 +83,7 @@ stages:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'BasementLab (cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c)'
+        azureSubscription: 'Pay-As-You-Go (cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c)'
         appType: 'webApp'
         WebAppName: 'tzYAML'
         packageForLinux: '$(System.ArtifactsDirectory)/**/OldDadApp.zip'
