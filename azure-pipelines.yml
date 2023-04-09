@@ -55,35 +55,3 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-- stage: TestDeployment
-  jobs:
-  - job: PublishTheCode
-    steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
-
-    - task: AzureResourceManagerTemplateDeployment@3
-      inputs:
-        deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: 'FY20-ImaDemo (b8c7d821-4fbb-4089-8978-b966512a6a45)'
-        subscriptionId: 'b8c7d821-4fbb-4089-8978-b966512a6a45'
-        action: 'Create Or Update Resource Group'
-        resourceGroupName: 'lz-yaml'
-        location: 'Central US'
-        templateLocation: 'Linked artifact'
-        csmFile: '$(System.ArtifactsDirectory)/**/WebAppWithSlots-Windows.json'
-        csmParametersFile: '$(System.ArtifactsDirectory)/**/azuredeploy.parameters.json'
-        overrideParameters: '-appName bnkYAML'
-        deploymentMode: 'Incremental'
-
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'FY20-ImaDemo (b8c7d821-4fbb-4089-8978-b966512a6a45)'
-        appType: 'webApp'
-        WebAppName: 'bnkYAML'
-        packageForLinux: '$(System.ArtifactsDirectory)/**/OldDadApp.zip'
