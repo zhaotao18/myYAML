@@ -54,36 +54,4 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-
-- stage: TestDeployment
-  jobs:
-  - job: PublishTheCode
-    steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
-
-    - task: AzureResourceManagerTemplateDeployment@3
-      inputs:
-        deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: 'BasementLab (cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c)'
-        subscriptionId: 'cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c'
-        action: 'Create Or Update Resource Group'
-        resourceGroupName: 'tz-yaml'
-        location: 'East US'
-        templateLocation: 'Linked artifact'
-        csmFile: '$(System.ArtifactsDirectory)/**/WebAppWithSlots-Windows.json'
-        csmParametersFile: '$(System.ArtifactsDirectory)/**/azuredeploy.parameters.json'
-        overrideParameters: '-appName tzYAML'
-        deploymentMode: 'Incremental'
-
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'BasementLab (cf9e8b50-0ae4-480e-94ab-8f1f9d699b5c)'
-        appType: 'webApp'
-        WebAppName: 'tzYAML'
-        packageForLinux: '$(System.ArtifactsDirectory)/**/OldDadApp.zip'
+ 
